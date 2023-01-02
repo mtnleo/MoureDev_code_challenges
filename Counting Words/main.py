@@ -1,6 +1,6 @@
 ## Create a function that counts how many times a word is repeated
 ## in the given text
-## You can't use language's own funcs that automatically solves it
+## You can't use language's own funcs that automatically solve it
 
 def count_words_in_text(text):
     words_count = {}
