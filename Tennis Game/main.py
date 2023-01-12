@@ -8,7 +8,7 @@ For example, given this sequence: [P1, P1, P2, P2, P1, P2, P1, P1], the program 
  *   15 - Love
  *   30 - Love
  *   30 - 15
- *   30 - 30
+ *   Deuce
  *   40 - 30
  *   Deuce
  *   Advantage P1
@@ -19,18 +19,19 @@ def show_result(points):
     p1 = points[0]
     p2 = points[1]
 
+
     if p1 == 0:
         p1 = "Love"
-    elif p1 > 40:
+    elif p1 == 40 and p2 == 40:
         p1 = "Advantage"
-    else:
+    elif p1 >= 50 and p2 <= 40:
         p1 = "Winner P1"
 
     if p2 == 0:
         p2 = "Love"
-    elif p2 > 40:
+    elif p2 == 40 and p1 == 40:
         p2 = "Advantage"
-    else:
+    elif p2 >= 50 and p1 <= 40:
         p2 = "Winner P2"
 
 
@@ -45,8 +46,13 @@ def show_result(points):
             print(f"{p2} P2")
         elif p1 == "Winner":
             print(p1)
+            return True
         else:
             print(p2)
+            return True
+
+
+    return False # if no one won
 
 def tennis_match(game):
     points = [0, 0] # one position per each player
@@ -56,12 +62,20 @@ def tennis_match(game):
             points[0] += 15
         elif player == "P1" and points[0] > 15:
             points[0] += 10
-        elif player == "P2" and points[0] != 30:
-            points[1] += 15
-        elif player == "P2" and points[0] > 15:
-            points[1] += 10
+            if points[0] > 40 and points[1] > 40:
+                points[1] -= 10
 
-        show_result(points)
+        if player == "P2" and points[1] != 30:
+            points[1] += 15
+        elif player == "P2" and points[1] > 15:
+            points[1] += 10
+            if points[1] > 40 and points[1] > 40:
+                points[0] -= 10
+        
+
+        res = show_result(points)
+        if res:
+            return res
 
 if __name__ == "__main__":
     game = ["P1", "P1", "P2", "P2", "P1", "P2", "P1", "P1"]
